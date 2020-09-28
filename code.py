@@ -2,6 +2,7 @@ import speech_recognition as sr
 import smtplib
 import email
 import imaplib
+from bs4 import BeautifulSoup
 from gtts import gTTS
 import os
 from playsound import playsound 
