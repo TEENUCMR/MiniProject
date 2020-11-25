@@ -76,6 +76,7 @@ def action():
 		eid=r.recognize_google(audio)
 		eid=eid.replace(" ","")
 		eid=eid.replace("attherate","@")
+		eid=eid.replace("at","@")
 		eid=eid.lower()
 		print ("You said : "+eid)
 		l1=Label(root,text=eid)
@@ -157,6 +158,33 @@ def action():
 
 
 	if text == '1' or text == 'One' or text == 'one' or text=='option one':
+		tts = gTTS(text="Reciever Email ID", lang='en')
+		ttsname=("rid.mp3")
+		tts.save(ttsname)
+		playsound("rid.mp3")
+		os.remove(ttsname)
+		r = sr.Recognizer()
+		with sr.Microphone() as source:
+			print ("Your message :")
+			audio=r.listen(source)
+			print ("ok done!!")
+
+		try:
+			text1=r.recognize_google(audio)
+			print ("You said : "+text1)
+			msg = rid
+			rid=rid.lower()
+			rid=rid.replace(" ","")
+			rid=rid.replace("attherate","@")
+			rid=rid.replace("at","@")
+
+
+
+		except sr.UnknownValueError:
+			print("Google Speech Recognition could not understand audio.")
+
+		except sr.RequestError as e:
+			print("Could not request results from Google Speech Recognition service; {0}".format(e))
 		tts = gTTS(text="Your message", lang='en')
 		ttsname=("msg1.mp3")
 		tts.save(ttsname)
@@ -185,7 +213,7 @@ def action():
 		mail.ehlo()  #Hostname to send for this command defaults to the FQDN of the local host.
 		mail.starttls() #security connection
 		mail.login(eid,pswd) #login part
-		mail.sendmail(eid,'tinaalex1307@gmail.com',msg) #send part
+		mail.sendmail(eid,rid,msg) #send part
 		print ("Congrates! Your mail has send. ")
 		tts = gTTS(text="Congrates! Your mail has send. ", lang='en')
 		ttsname=("send.mp3") 
