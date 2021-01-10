@@ -12,7 +12,12 @@ print ("       Project: Voice based Email for visually impaired")
 print ("-"*60)
 
 
-tts = gTTS(text="Project: Voice based Email for blind", lang='en',slow=False)
+tts = gTTS(text="Speak Now", lang='en',slow=False)
+ttsname=("sn.mp3") 
+tts.save(ttsname)
+
+
+tts = gTTS(text="Project: Voice based Email for Blind", lang='en',slow=False)
 ttsname=("a.mp3") 
 tts.save(ttsname)
 playsound("a.mp3")
@@ -20,6 +25,64 @@ os.remove(ttsname)
 
 login = os.getlogin
 print ("You are logging from : "+login())
+
+tts = gTTS(text="Email ID", lang='en',slow=False)
+ttsname=("a.mp3") 
+tts.save(ttsname)
+playsound("a.mp3")
+os.remove(ttsname)
+
+r = sr.Recognizer()
+with sr.Microphone() as source:
+    print ("Email I D: ")
+    playsound("sn.mp3")
+    audio=r.listen(source)
+    print ("ok done!!")
+
+
+try:
+    eid=r.recognize_google(audio)
+    eid=eid.replace(" ","")
+    eid=eid.lower()
+    print ("You said : "+eid)
+    
+except sr.UnknownValueError:
+    print("Google Speech Recognition could not understand audio.")
+     
+except sr.RequestError as e:
+    print("Could not request results from Google Speech Recognition service; {0}".format(e)) 
+
+
+tts = gTTS(text="password ", lang='en',slow=False)
+ttsname=("a.mp3") 
+tts.save(ttsname)
+playsound("a.mp3")
+os.remove(ttsname)
+
+r = sr.Recognizer()
+with sr.Microphone() as source:
+    print ("Password: ")
+    playsound("sn.mp3")
+    audio=r.listen(source)
+    print ("ok done!!")
+
+
+try:
+    pswd=r.recognize_google(audio)
+    pswd=pswd.replace(" ","")
+    pswd=pswd.lower()
+    print ("You said : "+pswd)
+    
+except sr.UnknownValueError:
+    print("Google Speech Recognition could not understand audio.")
+     
+except sr.RequestError as e:
+    print("Could not request results from Google Speech Recognition service; {0}".format(e)) 
+
+
+
+
+
 
 #choices
 print ("1. Compose a Mail")
@@ -79,8 +142,8 @@ if text == '1' or text == 'One' or text == 'one' or text=='option one':
     mail = smtplib.SMTP('smtp.gmail.com',587)    #host and port area
     mail.ehlo()  #Hostname to send for this command defaults to the FQDN of the local host.
     mail.starttls() #security connection
-    mail.login('MailID','PASSWORD') #login part
-    mail.sendmail('SENDER_MAIL_ID','RECIEVER_MAIL_ID',msg) #send part
+    mail.login(eid,pswd) #login part
+    mail.sendmail(eid,'tinaalex1307@gmail.com',msg) #send part
     print ("Congrates! Your mail has send. ")
     tts = gTTS(text="Congrates! Your mail has send. ", lang='en')
     ttsname=("send.mp3") 
